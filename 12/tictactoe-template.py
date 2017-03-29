@@ -15,7 +15,19 @@ class TicTacToe:
 
     def __str__(self):
         '''Print the board'''
-        pass
+        return "\n".join([" ".join(self.board[1:4])," ".join(self.board[4:7])," ".join(self.board[7:10])," "])
+
+    def setPosition(self, pos, token):
+        try:
+            if self.board[pos] == DEFAULT:
+                self.board[pos] = token
+                return True
+            else:
+                print "Position already taken"
+                return False
+        except IndexError as e:
+            print "invalid Position: ", pos 
+            return False
 
     # TODOS:
     # display board in __str__ (clearing screen)
@@ -29,6 +41,12 @@ class TicTacToe:
 if __name__ == "__main__":
     while True:
         game = TicTacToe()
+        print game
+        game.setPosition(1, "X")
+        print game
+        game.setPosition(11, "O")
+        print game
+        break
         # take turn
         # make move
         # check win - break
