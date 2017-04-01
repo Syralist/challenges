@@ -1,3 +1,5 @@
+import random
+
 DEFAULT = '_'  # or ' '
 VALID_POSITIONS = list(range(1, 10))  # could number board: 7-8-9, 4-5-6, 1-2-3
 WINNING_COMBINATIONS = (
@@ -21,7 +23,7 @@ class TicTacToe:
 
     def __str__(self):
         '''Print the board'''
-        return "\n".join([" ".join(self.board[1:4])," ".join(self.board[4:7])," ".join(self.board[7:10])," "])
+        return "\n".join([" ".join(self.board[7:10])," ".join(self.board[4:7])," ".join(self.board[1:4])," "])
 
     def setPosition(self, pos, token):
         try:
@@ -52,7 +54,7 @@ class TicTacToe:
         return False
 
     def is_draw(self):
-        if len(VALID_POSITIONS > 0):
+        if len(VALID_POSITIONS) > 0:
             return False
         else:
             return True
@@ -73,9 +75,9 @@ class Player:
         self.token = token
 
     def move(self):
-        pos = int(input("where to draw?"))
-        while not game.setPosition(pos, self.token):
-            pos = int(input("where to draw?"))
+        pos = int(input("where to draw? "))
+        while not self.game.setPosition(pos, self.token):
+            pos = int(input("where to draw? "))
 
 class AI:
     def __init__(self, game, token, level):
@@ -83,16 +85,33 @@ class AI:
         self.token = token
         self.level = level
 
+    def move(self):
+        if self.level == 0:
+            while not self.game.setPosition(random.randint(1,9), self.token):
+                pass
+
 
 if __name__ == "__main__":
     game = TicTacToe()
     player1 = Player(game, "X")
+    playerAI = AI(game, "O", 0)
+    clear()
+    print(game)
     while True:
+        player1.move()
         clear()
         print(game)
-        player1.move()
         if game.is_win("X"):
             print("player won!")
+            break
+        elif game.is_draw():
+            print("its a tie!")
+            break
+        playerAI.move()
+        clear()
+        print(game)
+        if game.is_win("O"):
+            print("AI won!")
             break
         elif game.is_draw():
             print("its a tie!")
